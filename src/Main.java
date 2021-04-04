@@ -3,9 +3,19 @@ import java.util.ArrayList;
 
 /*import algorithms.algorithms.mazeGenerators.*;
 /import algorithms.search.*;*/
+import algorithms.mazeGenerators.EmptyMazeGenerator;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.SimpleMazeGenerator;
+
 public class Main {
     public static void main(String[] args) {
+        EmptyMazeGenerator eg = new EmptyMazeGenerator();
+        SimpleMazeGenerator sg = new SimpleMazeGenerator();
+        Maze em = eg.generate(5,5);
+        Maze sm = sg.generate(10,25);
+        em.print();
+        System.out.println(" ");
+        sm.print();
 
     }
 /*    public static String m_resultsFileName = "results.txt";

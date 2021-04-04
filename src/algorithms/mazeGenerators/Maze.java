@@ -22,7 +22,7 @@ public class Maze {
     }
 
     public Maze(int rows, int columns) {
-        new Maze( rows, columns, new Position(0, 0), new Position(this.rows, this.columns) );
+        this( rows, columns, new Position(0, 0), new Position(rows-1,columns-1) );
 
     }
 
@@ -39,11 +39,11 @@ public class Maze {
     }
 
     public int getRows() {
-        return rows;
+        return rows+1;
     }
 
     public int getColumns() {
-        return columns;
+        return columns+1;
     }
 
     public void buildWall( int row, int column){
