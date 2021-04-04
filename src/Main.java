@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /*import algorithms.algorithms.mazeGenerators.*;
 /import algorithms.search.*;*/
-
+import algorithms.mazeGenerators.Maze;
 public class Main {
     public static void main(String[] args) {
 
