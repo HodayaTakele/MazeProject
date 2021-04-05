@@ -51,6 +51,13 @@ public class Maze {
         return columns+1;
     }
 
+    public int getCellValue(int row, int column) {
+        if (row < 0 || row > this.rows || column < 0 || column > this.columns) {
+            //throw out of range exception
+        }
+        return this.data[row][column];
+    }
+
     public void buildWall( int row, int column){
         if ( row < 0 || row > this.rows || column < 0 || column > this.columns ) {
             //throw out of range exception
