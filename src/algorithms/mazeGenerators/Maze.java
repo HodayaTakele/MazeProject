@@ -8,22 +8,27 @@ public class Maze {
     private int[][] data;
     private int rows;
     private int columns;
-    private boolean isSolved;
 
-    public Maze(int rows, int columns, Position s, Position g) {
-        if (rows < 0  || columns < 0 || s == null || g == null) {
+    public Maze( int rows, int columns, int set){
+        if ( rows < 0  || columns < 0 || !( set == 0  || set == 1)) {
             //throw exception
         }
         this.rows = rows - 1;
         this.columns = columns - 1;
         this.data = new int[rows][columns];
-        this.start = s;
-        this.goal = g;
+        this.start = new Position(0, 0);
+        this.goal = new Position(rows-1,columns-1);
+        if (set == 1){
+            for (int[] row : this.data)
+                Arrays.fill(row, 1);
+        }
     }
 
-    public Maze(int rows, int columns) {
-        this( rows, columns, new Position(0, 0), new Position(rows-1,columns-1) );
-
+    public void setGoal(int row, int column){
+        if ( row < 0 || row > this.rows || column < 0 || column > this.columns ) {
+            //throw out of range exception
+        }
+        this.goal = new Position(row,column);
     }
 
     public Position getStart() {
@@ -47,18 +52,17 @@ public class Maze {
     }
 
     public void buildWall( int row, int column){
-        if ((row >= 0 && row <= this.rows) || (column >=0 && column <= this.columns)) {
-            //throw exception
+        if ( row < 0 || row > this.rows || column < 0 || column > this.columns ) {
+            //throw out of range exception
         }
         this.data[row][column] = 1;
     }
 
-    public boolean isSolved() {
-        return isSolved;
-    }
-
-    public void setSolved(boolean solved) {
-        isSolved = solved;
+    public void breakWall( int row, int column){
+        if ( row < 0 || row > this.rows || column < 0 || column > this.columns ) {
+            //throw out of range exception
+        }
+        this.data[row][column] = 0;
     }
 
     public void print(){
