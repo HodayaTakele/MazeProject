@@ -1,5 +1,5 @@
 import algorithms.mazeGenerators.*;
-//import algorithms.search.*;
+//import algorithms.algorithms.search.*;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package search;
+package algorithms.search;
 
 import algorithms.mazeGenerators.Maze;
 
@@ -36,6 +36,7 @@ public class SearchableMaze implements ISearchable {
     @Override
     public MazeState[] getAllSuccessors(AState currState) {
         MazeState[] successorsMazeState = new MazeState[8];
+
         return successorsMazeState;
 
     }

@@ -1,4 +1,4 @@
-package search;
+package algorithms.search;
 
 public interface ISearchable {
     AState getStartState();

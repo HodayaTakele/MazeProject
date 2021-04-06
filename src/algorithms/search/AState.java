@@ -1,4 +1,4 @@
-package search;
+package algorithms.search;
 
 public abstract class AState {
     private AState cameFrom;
