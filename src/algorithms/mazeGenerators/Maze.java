@@ -31,11 +31,11 @@ public class Maze {
         this.goal = new Position(row,column);
     }
 
-    public Position getStart() {
+    public Position getStartPosition() {
         return start;
     }
 
-    public Position getGoal() {
+    public Position getGoalPosition() {
         return goal;
     }
 
@@ -44,11 +44,11 @@ public class Maze {
     }
 
     public int getRows() {
-        return rows+1;
+        return rows + 1;
     }
 
     public int getColumns() {
-        return columns+1;
+        return columns + 1;
     }
 
     public int getCellValue(int row, int column) {
@@ -76,10 +76,10 @@ public class Maze {
         for (int i = 0; i <= this.rows; i++) {
             System.out.print("{ ");
             for (int j = 0; j <= this.columns; j++) {
-                if(i == this.start.getRow() && j == this.start.getColumn()){
+                if(i == this.start.getRowIndex() && j == this.start.getColumnIndex()){
                     System.out.print( "S ");
                 }
-                else if(i == this.goal.getRow() && j == this.goal.getColumn()){
+                else if(i == this.goal.getRowIndex() && j == this.goal.getColumnIndex()){
                     System.out.print( "E ");
                 }
                 else {

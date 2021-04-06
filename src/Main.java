@@ -1,37 +1,36 @@
+import algorithms.mazeGenerators.*;
+//import algorithms.search.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
-/*import algorithms.algorithms.mazeGenerators.*;
-/import algorithms.search.*;*/
-import algorithms.mazeGenerators.*;
-
-
 public class Main {
-    public static void main(String[] args) {
-        EmptyMazeGenerator eg = new EmptyMazeGenerator();
-        SimpleMazeGenerator sg = new SimpleMazeGenerator();
-        MyMazeGenerator mg = new MyMazeGenerator();
-        Maze em = eg.generate(5,5);
-        Maze sm = sg.generate(10,25);
-        Maze mm = mg.generate(10,10);
-        em.print();
-        System.out.println(" ");
-        sm.print();
-        System.out.println(" ");
-        mm.print();
 
-    }
-/*    public static String m_resultsFileName = "results.txt";
+    public static String m_resultsFileName = "results.txt";
 
     public static enum TestStatus {
         Passed, Failed
     }
 
     public static void main(String[] args) {
-        appendToResultsFile("Test started!");
+        //appendToResultsFile("Test started!");
         Tests_GenerateMaze();
-        Tests_SearchOnMaze();
-        appendToResultsFile("Test finished!");
+        //Tests_SearchOnMaze();
+        //appendToResultsFile("Test finished!");
+
+        EmptyMazeGenerator eg = new EmptyMazeGenerator();
+        SimpleMazeGenerator sg = new SimpleMazeGenerator();
+        MyMazeGenerator mg = new MyMazeGenerator();
+        Maze em = eg.generate(5,5);
+        Maze sm = sg.generate(10,25);
+        System.out.println(String.format("Maze generation time(s): %s",mg.measureAlgorithmTimeMillis(1000,1000)));
+        Maze mm = mg.generate(20,20);
+
+        em.print();
+        System.out.println(" ");
+        sm.print();
+        System.out.println(" ");
+        mm.print();
     }
 
     private static String getTestStatusString(boolean testPassed) {
@@ -86,7 +85,7 @@ public class Main {
     //</editor-fold>
 
     //<editor-fold desc="Tests_SearchOnMaze">
-    private static void Tests_SearchOnMaze() {
+/*    private static void Tests_SearchOnMaze() {
         boolean testPassed;
         IMazeGenerator mg = new MyMazeGenerator();
 
@@ -108,9 +107,9 @@ public class Main {
                 appendToResultsFile(String.format("Fatal Error when converting Maze to SearchableMaze (%s,%s): %s", rows, columns, e.getMessage()));
             }
         }
-    }
+    }*/
 
-    private static boolean solveProblem(ISearchable domain, ISearchingAlgorithm searcher, int rows, int columns) {
+/*    private static boolean solveProblem(ISearchable domain, ISearchingAlgorithm searcher, int rows, int columns) {
         boolean testStatus = false;
         try {
             //Solve a searching problem with a searcher
@@ -123,7 +122,7 @@ public class Main {
             appendToResultsFile(String.format("TEST %s: Applying %s on maze (%s,%s)", getTestStatusString(testStatus), searcher.getClass().getSimpleName(), rows, columns));
         }
         return testStatus;
-    }
+    }*/
     //</editor-fold>
 
     public static void appendToResultsFile(String text) {
@@ -132,5 +131,5 @@ public class Main {
         } catch (IOException ex) {
             System.out.println(String.format("Error appending text to file: %s", m_resultsFileName));
         }
-    }*/
+    }
 }
