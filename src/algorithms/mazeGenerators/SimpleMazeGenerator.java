@@ -4,8 +4,7 @@ import java.util.Random;
 public class SimpleMazeGenerator extends AMazeGenerator {
 
     @Override
-    public Maze generate(int rows, int columns)
-    {
+    public Maze generate(int rows, int columns) {
         Maze maze = new Maze(rows, columns, 0);
         int r = rows - 1;
         int c = columns - 1;
@@ -41,8 +40,8 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         down(maze,r,c,s_col);
         return maze;
     }
-    private void down(Maze maze, int r, int c, int s_col)
-    {
+
+    private void down(Maze maze, int r, int c, int s_col) {
         Random rand = new Random();
         for (int i=0; i<s_col; i++)
         {
