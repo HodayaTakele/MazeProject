@@ -1,4 +1,6 @@
 import algorithms.mazeGenerators.*;
+import algorithms.search.MazeState;
+import algorithms.search.SearchableMaze;
 //import algorithms.algorithms.search.*;
 
 import java.io.IOException;
@@ -11,6 +13,7 @@ public class Main {
     public static enum TestStatus {
         Passed, Failed
     }
+
 
     public static void main(String[] args) {
         //appendToResultsFile("Test started!");
