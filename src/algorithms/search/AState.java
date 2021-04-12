@@ -1,9 +1,26 @@
 package algorithms.search;
 
 public abstract class AState {
-    private AState cameFrom;
-    private int cost;
+    protected AState cameFrom;
+    protected int cost;
 
-    public int getCost(){return cost;}
-    public AState getCameFrom(){return cameFrom;}
+    public AState(AState cameFrom){
+        this.cameFrom = cameFrom;
+    }
+
+    public int getCost(){
+        return cost;
+    }
+
+    public AState getCameFrom(){
+        return cameFrom;
+    }
+
+    public void setCameFrom(AState cameFrom) {
+        this.cameFrom = cameFrom;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 }

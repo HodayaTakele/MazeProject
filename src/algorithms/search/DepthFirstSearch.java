@@ -1,6 +1,6 @@
 package algorithms.search;
 
-public class DepthFirstSearch implements ISearchingAlgorithm{
+public class DepthFirstSearch extends ASearchingAlgorithm{
     private int visitedNodesCount;
 
     @Override

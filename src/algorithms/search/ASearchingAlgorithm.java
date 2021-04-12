@@ -1,7 +1,10 @@
 package algorithms.search;
 
+import java.util.Queue;
+
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
-    private int visitedNodesCount;
+    protected int visitedNodesCount;
+    protected Queue<AState> openList;
 
     @Override
     public int getNumberOfNodesEvaluated() {
@@ -14,7 +17,5 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     }
 
     @Override
-    public Solution solve(ISearchable searchable) {
-        return null;
-    }
+    public abstract Solution solve(ISearchable searchable);
 }
