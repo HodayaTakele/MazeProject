@@ -1,16 +1,30 @@
 package algorithms.search;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Solution {
+    private AState finalState;
     private ArrayList<AState> solutionPath;
 
-    public Solution(AState firstState){
-        this.addState(firstState);
+    public Solution(AState finalState){
+        this.finalState = finalState;
+        this.solutionPath = new ArrayList<>();
+        createSolutionPath(finalState);
     }
 
-    public void addState(AState state){
-        solutionPath.add(state);
+    private void createSolutionPath(AState state)
+    {
+        Stack<AState> tempPath = new Stack<>();
+        AState currState = state;
+        while ( currState!= null ){
+            tempPath.add(currState);
+            currState = currState.getCameFrom();
+        }
+        while(!(tempPath.isEmpty())){
+            solutionPath.add(tempPath.pop());
+        }
+
     }
 
     public ArrayList<AState> getSolutionPath(){

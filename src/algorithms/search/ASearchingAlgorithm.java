@@ -12,9 +12,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     }
 
     @Override
-    public String getName() {
-        return null;
-    }
+    public abstract String getName();
 
     @Override
     public abstract Solution solve(ISearchable searchable);

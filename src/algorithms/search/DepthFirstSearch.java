@@ -21,7 +21,7 @@ public class DepthFirstSearch implements ISearchingAlgorithm{
 
     @Override
     public String getName() {
-        return null;
+        return getClass().getSimpleName();
     }
 
     @Override
@@ -35,17 +35,16 @@ public class DepthFirstSearch implements ISearchingAlgorithm{
             AState currState = this.openList.pop();
             if (!(this.closeList.contains(currState))) {
                 this.closeList.add(currState);
-                this.visitedNodesCount++;
             }
             AState[] stateSuccessors = searchable.getAllSuccessors(currState);
             for (AState successor: stateSuccessors){
-                if (successor == searchable.getFinalState()){
+                if ( successor != null && successor.equals(searchable.getFinalState())){
                     sol = new Solution(successor);
                     this.closeList.add(currState);
                     this.visitedNodesCount = closeList.size();
                     break;
                 }
-                else if(!(this.closeList.contains(successor))){
+                else if(successor != null && !(this.closeList.contains(successor))){
                     this.openList.add(successor);
                 }
             }

@@ -7,29 +7,39 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
 
     public BreadthFirstSearch(){
         this.visitedNodesCount = 0;
-        this.openList = new LinkedList<AState>();
-        this.closeList = new LinkedList<AState>();
+        this.openList = new LinkedList<>();
+        this.closeList = new LinkedList<>();
     }
 
+    @Override
+    public String getName(){
+        return getClass().getSimpleName();
+    }
 
     @Override
     public Solution solve(ISearchable searchable) {
+        if(searchable == null){
+            //throw exception
+        }
+        Solution sol = null;
         this.openList.add(searchable.getStartState());
 
-        while(!(this.openList.isEmpty())) {
+        while(!(this.openList.isEmpty()) && sol == null) {
             AState currState = this.openList.poll();
-            this.visitedNodesCount++;
             AState[] stateSuccessors = searchable.getAllSuccessors(currState);
             for (AState successor: stateSuccessors){
-                if(!(this.openList.contains(successor)) && !(this.closeList.contains(successor))){
+                if(successor != null && successor.equals(searchable.getFinalState())){
+                    sol = new Solution(successor);
+                    this.closeList.add(successor);
+                    break;
+                }
+                else if( successor != null && !(this.openList.contains(successor)) && !(this.closeList.contains(successor)) ){
                     this.openList.add(successor);
-                    this.visitedNodesCount++;
                 }
             }
             this.closeList.add(currState);
         }
-
-        
-        return null;
+        this.visitedNodesCount = this.closeList.size();
+        return sol;
     }
 }

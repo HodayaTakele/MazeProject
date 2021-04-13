@@ -6,7 +6,6 @@ import java.util.Objects;
 public class MazeState extends AState {
     private Position State;
 
-
     public MazeState(Position State, MazeState cameFrom) {
         super(cameFrom);
         this.State = State;
@@ -22,6 +21,9 @@ public class MazeState extends AState {
         }
     }
     public Position getState() {return this.State;}
+
+    @Override
+    public String toString(){ return this.State.toString();}
 
     @Override
     public boolean equals(Object o) {

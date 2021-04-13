@@ -16,11 +16,5 @@ public abstract class AState {
         return cameFrom;
     }
 
-    public void setCameFrom(AState cameFrom) {
-        this.cameFrom = cameFrom;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
+    public abstract String toString();
 }
