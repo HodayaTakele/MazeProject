@@ -36,7 +36,7 @@ public class SearchableMaze implements ISearchable {
 
 
     /**return the optional moves that the State can move to.
-     * @param currState AState
+     * @param currState the current AState
      * @return array within 8 MazeState (can be also null) that the currState can move to.
      * the optional state will be organize in the array according to this :
      * MazeState[0]<--Upper cell, MazeState[1]<--Upper right diagonal, MazeState[2]<--Right cell, MazeState[3]<--lower right diagonal cell, MazeState[4]<--Lower cell,
