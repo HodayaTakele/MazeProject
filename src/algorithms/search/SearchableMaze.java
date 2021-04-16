@@ -5,35 +5,24 @@ import algorithms.mazeGenerators.Position;
 
 public class SearchableMaze implements ISearchable {
     private MazeState startState;
-    private MazeState finalState;
+    private MazeState goalState;
     private Maze maze;
-    private boolean isSolved;
 
-    public SearchableMaze(Maze maze) {
+    public SearchableMaze(Maze maze) throws NullPointerException{
+        if (maze == null) throw new NullPointerException("maze can't be null");
+        if (maze.getStartPosition() == null) throw new NullPointerException("maze start position can't be null");
+        if (maze.getGoalPosition() == null) throw new NullPointerException("maze goal position can't be null");
+
         this.startState = new MazeState(maze.getStartPosition(), null);
-        this.finalState = new MazeState(maze.getGoalPosition(), null);
+        this.goalState = new MazeState(maze.getGoalPosition(), null);
         this.maze = maze;
-        this.isSolved = false;
-    }
-
-    public void setSolved(boolean solved) {
-        isSolved = solved;
-    }
-
-    public boolean isSolved() {
-        return isSolved;
     }
 
     @Override
-    public MazeState getStartState() {
-        return this.startState;
-    }
+    public MazeState getStartState() { return this.startState; }
 
     @Override
-    public MazeState getFinalState() {
-        return this.finalState;
-    }
-
+    public MazeState getGoalState() { return this.goalState; }
 
     /**return the optional moves that the State can move to.
      * @param currState the current AState
@@ -44,7 +33,9 @@ public class SearchableMaze implements ISearchable {
      * adding to the suitable index in the array the MazeState if the currState can move to the cell (the cell exist and his value is 0), else keep it null
      */
     @Override
-    public MazeState[] getAllSuccessors(AState currState) {
+    public MazeState[] getAllSuccessors(AState currState) throws NullPointerException{
+        if (currState == null) throw new NullPointerException("currState can't be null");
+
         MazeState mazeState = (MazeState) currState;
         boolean up = false;
         boolean right = false;
@@ -150,8 +141,8 @@ public class SearchableMaze implements ISearchable {
                 }
             }
         }
-
         return successorsMazeState;
 
     }
+
 }

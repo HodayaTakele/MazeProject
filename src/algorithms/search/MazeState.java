@@ -6,20 +6,19 @@ import java.util.Objects;
 public class MazeState extends AState {
     private Position State;
 
-    public MazeState(Position State, MazeState cameFrom) {
-        super(cameFrom);
+    public MazeState(Position State, MazeState cameFrom) throws NullPointerException{
+        super( cameFrom );
+        if ( State == null ) throw new NullPointerException("MazeState must hold a position");
+
         this.State = State;
         //Determining the cost of the State:
-        if(cameFrom == null){
-            this.cost = 0;
-        }//steps of :  left / right / down / up
-        else if ((cameFrom.getState().getColumnIndex() == this.State.getColumnIndex()) || (cameFrom.getState().getRowIndex() == this.State.getRowIndex())) {
-            this.cost = cameFrom.getCost() + 10;
-        }//step : slant
-        else {
-            this.cost = cameFrom.getCost() + 15;
-        }
+        if( cameFrom == null ){ this.cost = 0; }
+        //steps of :  left / right / down / up
+        else if ((cameFrom.getState().getColumnIndex() == this.State.getColumnIndex()) || (cameFrom.getState().getRowIndex() == this.State.getRowIndex())) { this.cost = cameFrom.getCost() + 10; }
+        //step : slant
+        else { this.cost = cameFrom.getCost() + 15; }
     }
+
     public Position getState() {return this.State;}
 
     @Override
@@ -37,4 +36,5 @@ public class MazeState extends AState {
     public int hashCode() {
         return Objects.hash(State);
     }
+
 }
