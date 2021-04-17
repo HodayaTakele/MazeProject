@@ -10,28 +10,23 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         int c = columns - 1;
         int i=0, j=0, s_col=0;
         while( (i < rows-1) || (j < columns -1))
-            if (i == r) {
-                //go right
-                j++;
-            }
+            //go right
+            if (i == r) { j++; }
+            // go down
             else if ( j == c){
-                // go down
                 down(maze,i,j,s_col);
                 s_col = j;
                 i++;
 
             }
+            // go down or right
             else{
-                // go down or right
                 Random rand = new Random();
                 int r_d = rand.nextInt(2);
-                if(r_d == 0)
-                {
-                    //go right
-                    j++;
-                }
+                //go right
+                if(r_d == 0) { j++; }
+                // go down
                 else {
-                    // go down
                     down(maze,i,j,s_col);
                     s_col = j;
                     i++;
@@ -43,21 +38,16 @@ public class SimpleMazeGenerator extends AMazeGenerator {
 
     private void down(Maze maze, int r, int c, int s_col) {
         Random rand = new Random();
+        //build wall
         for (int i=0; i<s_col; i++)
         {
-            if(rand.nextInt(2)==1)
-            {
-                //build wall
-                maze.buildWall(r,i);
-            }
+            if(rand.nextInt(2)==1) { maze.buildWall(r,i); }
         }
+        //build wall
         for (int j=c+1; j<maze.getColumns();j++)
         {
-            if(rand.nextInt(2)==1)
-            {
-                //build wall
-                maze.buildWall(r,j);
-            }
+            if(rand.nextInt(2)==1) { maze.buildWall(r,j); }
         }
     }
+
 }

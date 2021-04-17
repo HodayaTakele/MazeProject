@@ -2,7 +2,7 @@ package algorithms.search;
 
 public interface ISearchable {
     AState getStartState();
-    AState getFinalState();
+    AState getGoalState();
 
     /**Return the State's successors States
      * @param currState

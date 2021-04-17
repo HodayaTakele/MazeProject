@@ -1,17 +1,17 @@
 package algorithms.search;
 
+import java.util.HashSet;
 import java.util.Stack;
-import java.util.LinkedList;
 
 public class DepthFirstSearch implements ISearchingAlgorithm{
     protected int visitedNodesCount;
     protected Stack<AState> openList;
-    protected LinkedList<AState> closeList; //visited
+    protected HashSet<AState> closeHash; //visited
 
     public DepthFirstSearch(){
         this.visitedNodesCount = 0;
         openList = new Stack<>();
-        closeList = new LinkedList<>();
+        closeHash = new HashSet<>();
     }
 
     @Override
@@ -33,19 +33,20 @@ public class DepthFirstSearch implements ISearchingAlgorithm{
         {
             // Pop the cell from stack and add to close list
             AState currState = this.openList.pop();
-            if (!(this.closeList.contains(currState))) {
-                this.closeList.add(currState);
+            if (!(this.closeHash.contains(currState))) {
+                this.closeHash.add(currState);
             }
             AState[] stateSuccessors = searchable.getAllSuccessors(currState);
             for (AState successor: stateSuccessors){
-                if ( successor != null && successor.equals(searchable.getFinalState())){
-                    sol = new Solution(successor);
-                    this.closeList.add(currState);
-                    this.visitedNodesCount = closeList.size();
-                    break;
-                }
-                else if(successor != null && !(this.closeList.contains(successor))){
-                    this.openList.add(successor);
+                if ( successor != null) {
+                    if (successor.equals(searchable.getGoalState())) {
+                        sol = new Solution(successor);
+                        this.closeHash.add(successor);
+                        this.visitedNodesCount = closeHash.size();
+                        break;
+                    } else if (!(this.closeHash.contains(successor))) {
+                        this.openList.add(successor);
+                    }
                 }
             }
         }

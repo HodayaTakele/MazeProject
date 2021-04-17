@@ -99,24 +99,25 @@ public class MyMazeGenerator extends AMazeGenerator {
         }
     }
 
-    private void chooseFinalPosition(Maze maze){
-        int columnsRange = (maze.getColumns() - 1) / 2;
-        int rowsRange = (maze.getRows() - 1) / 2;
-        Random rand = new Random();
-        int row, column;
-        boolean goalFound = false;
-        while (!goalFound){
-            if (maze.getColumns() < maze.getRows()) {
-                column = maze.getColumns() - 1 - rand.nextInt(columnsRange);
-                row = maze.getRows() - 1;
-            }
-            else {
-                row = maze.getRows() - 1 - rand.nextInt(rowsRange);
-                column = maze.getColumns() - 1;
-            }
-            if(maze.getCellValue(row,column) == 0){
-                goalFound = true;
-                maze.setGoal(row, column);
+    private void chooseFinalPosition(Maze maze) {
+        if (maze.getColumns() > 2 && maze.getRows() > 2) {
+            int columnsRange = (maze.getColumns() - 1) / 2;
+            int rowsRange = (maze.getRows() - 1) / 2;
+            Random rand = new Random();
+            int row, column;
+            boolean goalFound = false;
+            while (!goalFound) {
+                if (maze.getColumns() < maze.getRows()) {
+                    column = maze.getColumns() - 1 - rand.nextInt(columnsRange);
+                    row = maze.getRows() - 1;
+                } else {
+                    row = maze.getRows() - 1 - rand.nextInt(rowsRange);
+                    column = maze.getColumns() - 1;
+                }
+                if (maze.getCellValue(row, column) == 0) {
+                    goalFound = true;
+                    maze.setGoal(row, column);
+                }
             }
         }
     }

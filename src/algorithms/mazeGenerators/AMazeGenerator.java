@@ -1,8 +1,6 @@
 package algorithms.mazeGenerators;
-//import algorithms.mazeGenerators.IMazeGenerator;
 
 public abstract class AMazeGenerator implements IMazeGenerator {
-    public AMazeGenerator() { }
 
     @Override
     public long measureAlgorithmTimeMillis(int rows, int columns){
@@ -11,4 +9,7 @@ public abstract class AMazeGenerator implements IMazeGenerator {
         long generationEndTime = System.currentTimeMillis();
         return (generationEndTime - generationStartTime);
     }
+
+    @Override
+    public abstract Maze generate(int rows, int columns);
 }

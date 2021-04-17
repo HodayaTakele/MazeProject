@@ -9,10 +9,9 @@ public class Maze {
     private int rows;
     private int columns;
 
-    public Maze( int rows, int columns, int set){
-        if ( rows < 0  || columns < 0 || !( set == 0  || set == 1)) {
-            //throw exception
-        }
+    public Maze( int rows, int columns, int set) throws IllegalArgumentException{
+        if ( rows < 2  || columns < 2 ) throw new IllegalArgumentException("Maze size(rows x columns) must be at least 2x2");
+        if ( !( set == 0  || set == 1) ) throw new IllegalArgumentException("Maze set value must be 0 or 1");
         this.rows = rows - 1;
         this.columns = columns - 1;
         this.data = new int[rows][columns];
@@ -24,51 +23,36 @@ public class Maze {
         }
     }
 
-    public void setGoal(int row, int column){
-        if ( row < 0 || row > this.rows || column < 0 || column > this.columns ) {
-            //throw out of range exception
-        }
+    public void setGoal(int row, int column) throws MazeException {
+        if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);
+        if ( column < 0 || column > this.columns ) throw new MazeException("column", this.columns);
+        if ( column == 0 && row == 0 ) throw new MazeException();
         this.goal = new Position(row,column);
     }
 
-    public Position getStartPosition() {
-        return start;
-    }
+    public Position getStartPosition() { return start; }
 
-    public Position getGoalPosition() {
-        return goal;
-    }
+    public Position getGoalPosition() { return goal; }
 
-    public int[][] getData() {
-        return data;
-    }
+    public int getRows() { return rows + 1; }
 
-    public int getRows() {
-        return rows + 1;
-    }
+    public int getColumns() { return columns + 1; }
 
-    public int getColumns() {
-        return columns + 1;
-    }
-
-    public int getCellValue(int row, int column) {
-        if (row < 0 || row > this.rows || column < 0 || column > this.columns) {
-            //throw out of range exception
-        }
+    public int getCellValue(int row, int column) throws MazeException {
+        if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);
+        if ( column < 0 || column > this.columns ) throw new MazeException("column", this.columns);
         return this.data[row][column];
     }
 
-    public void buildWall( int row, int column){
-        if ( row < 0 || row > this.rows || column < 0 || column > this.columns ) {
-            //throw out of range exception
-        }
+    public void buildWall( int row, int column) throws MazeException {
+        if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);
+        if ( column < 0 || column > this.columns ) throw new MazeException("column", this.columns);
         this.data[row][column] = 1;
     }
 
-    public void breakWall( int row, int column){
-        if ( row < 0 || row > this.rows || column < 0 || column > this.columns ) {
-            //throw out of range exception
-        }
+    public void breakWall( int row, int column) throws MazeException {
+        if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);
+        if ( column < 0 || column > this.columns ) throw new MazeException("column", this.columns);
         this.data[row][column] = 0;
     }
 
@@ -90,4 +74,5 @@ public class Maze {
         }
 
     }
+
 }
