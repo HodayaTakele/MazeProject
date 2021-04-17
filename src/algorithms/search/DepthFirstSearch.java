@@ -25,7 +25,9 @@ public class DepthFirstSearch implements ISearchingAlgorithm{
     }
 
     @Override
-    public Solution solve(ISearchable searchable) {
+    public Solution solve(ISearchable searchable) throws NullPointerException{
+        if ( searchable == null ) throw new NullPointerException( "searchable can't be null" );
+
         Solution sol = null;
         AState StartState = searchable.getStartState();
         this.openList.push(StartState);
@@ -50,6 +52,7 @@ public class DepthFirstSearch implements ISearchingAlgorithm{
                 }
             }
         }
+        if ( sol == null ) throw new NullPointerException("Searchable have no solution - please enter searchable with at least one solution");
         return sol;
     }
 

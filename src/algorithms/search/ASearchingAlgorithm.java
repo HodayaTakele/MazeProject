@@ -10,20 +10,14 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     protected HashSet<AState> openHash;
 
     @Override
-    public int getNumberOfNodesEvaluated() {
-        return visitedNodesCount;
-    }
+    public int getNumberOfNodesEvaluated() { return visitedNodesCount; }
 
     @Override
-    public  String getName(){
-        return getClass().getSimpleName();
-    }
+    public  String getName(){ return getClass().getSimpleName(); }
 
     @Override
-    public Solution solve(ISearchable searchable){
-        if(searchable == null){
-            //throw exception
-        }
+    public Solution solve(ISearchable searchable) throws NullPointerException{
+        if ( searchable == null ) throw new NullPointerException( "searchable can't be null" );
 
         Solution sol = null;
         this.openList.add(searchable.getStartState());
@@ -39,6 +33,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
                     if (successor.equals(searchable.getGoalState())) {
                         sol = new Solution(successor);
                         this.closeHash.add(successor);
+                        this.visitedNodesCount = this.closeHash.size();
                         break;
                     }
                     else if (!(this.openHash.contains(successor)) && !(this.closeHash.contains(successor))){
@@ -50,7 +45,9 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
             this.closeHash.add(currState);
             this.openHash.remove(currState);
         }
-        this.visitedNodesCount = this.closeHash.size();
+
+        if ( sol == null) throw new NullPointerException("Searchable have no solution - please enter searchable with at least one solution");
         return sol;
     }
+
 }

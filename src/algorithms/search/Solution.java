@@ -21,12 +21,9 @@ public class Solution {
             tempPath.add(currState);
             currState = currState.getCameFrom();
         }
-        while(!(tempPath.isEmpty())){
-            solutionPath.add(tempPath.pop());
-        }
+        while(!(tempPath.isEmpty())){ solutionPath.add(tempPath.pop()); }
 
     }
-
 
     public ArrayList<AState> getSolutionPath(){
         return solutionPath;

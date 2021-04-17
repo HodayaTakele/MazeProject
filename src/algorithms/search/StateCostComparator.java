@@ -9,9 +9,7 @@ public class StateCostComparator implements Comparator<AState> {
      * @return num, where: num < 0 if s1 < s2, num == 0 if s1 == s2, and num > 0 if s1 > s2
      */
     @Override
-    public int compare(AState s1, AState s2) {
-        return s1.getCost() - s2.getCost();
-    }
+    public int compare(AState s1, AState s2) { return s1.getCost() - s2.getCost(); }
 
     @Override
     public String toString() {

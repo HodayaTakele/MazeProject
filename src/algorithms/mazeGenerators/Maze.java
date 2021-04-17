@@ -23,10 +23,19 @@ public class Maze {
         }
     }
 
+    public void setStart(int row, int column) throws MazeException {
+        if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);
+        if ( column < 0 || column > this.columns ) throw new MazeException("column", this.columns);
+        if ( !(row == 0 || row == this.rows ||column == 0 || column == this.columns) ) throw new MazeException("start");
+        if ( column == this.goal.getColumnIndex() && row == this.goal.getRowIndex() ) throw new MazeException( "start", "goal", this.goal.getRowIndex(), this.goal.getColumnIndex());
+        this.start = new Position(row,column);
+    }
+
     public void setGoal(int row, int column) throws MazeException {
         if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);
         if ( column < 0 || column > this.columns ) throw new MazeException("column", this.columns);
-        if ( column == 0 && row == 0 ) throw new MazeException();
+        if ( !(row == 0 || row == this.rows ||column == 0 || column == this.columns) ) throw new MazeException("goal");
+        if ( column == this.start.getColumnIndex() && row == this.start.getRowIndex() ) throw new MazeException("goal", "start", this.start.getRowIndex(), this.start.getColumnIndex());
         this.goal = new Position(row,column);
     }
 
