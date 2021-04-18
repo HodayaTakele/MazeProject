@@ -11,11 +11,10 @@ public class SearchableMaze implements ISearchable {
     private MazeState goalState;
     private Maze maze;
 
-    public SearchableMaze(Maze maze) throws NullPointerException{
-        if ( maze == null ) throw new NullPointerException( "Maze can't be null" );
-        if ( maze.getStartPosition() == null ) throw new NullPointerException( "Maze start position can't be null" );
-        if ( maze.getGoalPosition() == null ) throw new NullPointerException( "Maze goal position can't be null" );
-
+    public SearchableMaze(Maze maze) throws IllegalArgumentException{
+        if ( maze == null ) throw new IllegalArgumentException( "Maze can't be null" );
+        if ( maze.getStartPosition() == null ||  maze.getGoalPosition() == null ) throw new IllegalArgumentException( "Maze must have Start and Goal positions" );
+        if ( maze.getGoalPosition().equals(maze.getStartPosition()) ) throw new IllegalArgumentException( "Maze must have different Start and Goal positions");
         this.startState = new MazeState(maze.getStartPosition(), null);
         this.goalState = new MazeState(maze.getGoalPosition(), null);
         this.maze = maze;

@@ -18,7 +18,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     @Override
     public Solution solve(ISearchable searchable) throws NullPointerException{
         if ( searchable == null ) throw new NullPointerException( "searchable can't be null" );
-
+        if ( searchable.getStartState() == null ||  searchable.getGoalState() == null ) throw new IllegalArgumentException( "ISearchable must have Start and Goal states" );
         Solution sol = null;
         this.openList.add(searchable.getStartState());
         this.openHash.add(searchable.getStartState());

@@ -12,6 +12,7 @@ public class MyMazeGenerator extends AMazeGenerator {
     public Maze generate(int rows, int columns) {
         // Create maze filled with walls
         Maze maze = new Maze(rows, columns, 1);
+        maze.setStart(0,0);
         // List that contain all the passages that have not yet been explored
         List<Position> wallList = new ArrayList<>();
         // Open the start position

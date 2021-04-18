@@ -15,8 +15,8 @@ public class Maze {
         this.rows = rows - 1;
         this.columns = columns - 1;
         this.data = new int[rows][columns];
-        this.start = new Position(0, 0);
-        this.goal = new Position(rows-1,columns-1);
+        this.start = null;
+        this.goal = null;
         if (set == 1){
             for (int[] row : this.data)
                 Arrays.fill(row, 1);
@@ -27,7 +27,6 @@ public class Maze {
         if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);
         if ( column < 0 || column > this.columns ) throw new MazeException("column", this.columns);
         if ( !(row == 0 || row == this.rows ||column == 0 || column == this.columns) ) throw new MazeException("start");
-        if ( column == this.goal.getColumnIndex() && row == this.goal.getRowIndex() ) throw new MazeException( "start", "goal", this.goal.getRowIndex(), this.goal.getColumnIndex());
         this.start = new Position(row,column);
     }
 
@@ -35,7 +34,6 @@ public class Maze {
         if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);
         if ( column < 0 || column > this.columns ) throw new MazeException("column", this.columns);
         if ( !(row == 0 || row == this.rows ||column == 0 || column == this.columns) ) throw new MazeException("goal");
-        if ( column == this.start.getColumnIndex() && row == this.start.getRowIndex() ) throw new MazeException("goal", "start", this.start.getRowIndex(), this.start.getColumnIndex());
         this.goal = new Position(row,column);
     }
 
@@ -69,10 +67,10 @@ public class Maze {
         for (int i = 0; i <= this.rows; i++) {
             System.out.print("{ ");
             for (int j = 0; j <= this.columns; j++) {
-                if(i == this.start.getRowIndex() && j == this.start.getColumnIndex()){
+                if(this.start != null && i == this.start.getRowIndex() && j == this.start.getColumnIndex()){
                     System.out.print( "S ");
                 }
-                else if(i == this.goal.getRowIndex() && j == this.goal.getColumnIndex()){
+                else if(this.goal!= null && i == this.goal.getRowIndex() && j == this.goal.getColumnIndex()){
                     System.out.print( "E ");
                 }
                 else {

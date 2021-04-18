@@ -6,6 +6,8 @@ public class SimpleMazeGenerator extends AMazeGenerator {
     @Override
     public Maze generate(int rows, int columns) {
         Maze maze = new Maze(rows, columns, 0);
+        maze.setStart(0,0);
+        maze.setGoal(rows-1,columns-1);
         int r = rows - 1;
         int c = columns - 1;
         int i=0, j=0, s_col=0;

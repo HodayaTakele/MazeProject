@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Stack;
 
 public class DepthFirstSearch implements ISearchingAlgorithm{
-    protected int visitedNodesCount;
-    protected Stack<AState> openList;
-    protected HashSet<AState> closeHash; //visited
+    private int visitedNodesCount;
+    private Stack<AState> openList;
+    private HashSet<AState> closeHash; //visited
 
     public DepthFirstSearch(){
         this.visitedNodesCount = 0;
@@ -27,7 +27,7 @@ public class DepthFirstSearch implements ISearchingAlgorithm{
     @Override
     public Solution solve(ISearchable searchable) throws NullPointerException{
         if ( searchable == null ) throw new NullPointerException( "searchable can't be null" );
-
+        if ( searchable.getStartState() == null ||  searchable.getGoalState() == null ) throw new IllegalArgumentException( "ISearchable must have Start and Goal states" );
         Solution sol = null;
         AState StartState = searchable.getStartState();
         this.openList.push(StartState);
