@@ -91,6 +91,13 @@ public class Maze3D {
         this.data[depth][row][column] = 0;
     }
 
+    public void closeCell(int depth, int row, int column) throws MazeException {
+        if (row < 0 || row > this.rows) throw new MazeException("row", this.rows);
+        if (column < 0 || column > this.columns) throw new MazeException("column", this.columns);
+        if (depth < 0 || depth > this.rows) throw new MazeException("depth", this.depths);
+        this.data[depth][row][column] = -1;
+    }
+
     public void print() {
 
         System.out.println("{");

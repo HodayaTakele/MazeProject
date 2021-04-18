@@ -30,7 +30,7 @@ public class Maze3DState extends AState {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MazeState)) return false;
+        if (!(o instanceof Maze3DState)) return false;
         Maze3DState Maze3DState = (Maze3DState) o;
         return State.equals(Maze3DState.State);
     }
