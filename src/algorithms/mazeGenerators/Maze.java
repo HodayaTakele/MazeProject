@@ -23,6 +23,17 @@ public class Maze {
         }
     }
 
+    public Maze(Maze maze) {
+        this.start = maze.start;
+        this.goal = maze.goal;
+        this.rows = maze.getRows() - 1;
+        this.columns = maze.getColumns() - 1;
+        this.data = new int[maze.getRows()][maze.getColumns()];
+        for (int i = 0; i < maze.data.length; i++) {
+            this.data[i] = maze.data[i].clone();
+        }
+    }
+
     public void setStart(int row, int column) throws MazeException {
         if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);
         if ( column < 0 || column > this.columns ) throw new MazeException("column", this.columns);

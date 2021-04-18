@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class SearchableMaze implements ISearchable {
     private MazeState startState;
     private MazeState goalState;
-    private Maze maze;
+    public Maze maze;
 
     public SearchableMaze(Maze maze) throws IllegalArgumentException{
         if ( maze == null ) throw new IllegalArgumentException( "Maze can't be null" );
