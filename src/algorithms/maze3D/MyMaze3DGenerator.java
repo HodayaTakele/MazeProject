@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyMaze3DGenerator extends AMaze3DGenerator{
+
     @Override
     public Maze3D generate(int depth, int row, int column) {
 //        Maze maze = new Maze3D(depth, rows, columns, 1);

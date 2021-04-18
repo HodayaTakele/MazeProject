@@ -10,4 +10,5 @@ public abstract class AMaze3DGenerator implements IMazeGenerator3D{
         long generationEndTime = System.currentTimeMillis();
         return (generationEndTime - generationStartTime);
     }
+
 }

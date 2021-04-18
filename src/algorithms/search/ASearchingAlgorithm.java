@@ -13,7 +13,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     public int getNumberOfNodesEvaluated() { return visitedNodesCount; }
 
     @Override
-    public  String getName(){ return getClass().getSimpleName(); }
+    public String getName(){ return getClass().getSimpleName(); }
 
     @Override
     public Solution solve(ISearchable searchable) throws NullPointerException{

@@ -1,0 +1,67 @@
+Index: src/algorithms/search/DepthFirstSearch.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package algorithms.search;\r\n\r\npublic class DepthFirstSearch implements ISearchingAlgorithm{\r\n    private int visitedNodesCount;\r\n\r\n    @Override\r\n    public int getNumberOfNodesEvaluated() {\r\n        return visitedNodesCount;\r\n    }\r\n\r\n    @Override\r\n    public String getName() {\r\n        return null;\r\n    }\r\n\r\n    @Override\r\n    public Solution solve(ISearchable searchable) {\r\n        return null;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/search/DepthFirstSearch.java b/src/algorithms/search/DepthFirstSearch.java
+--- a/src/algorithms/search/DepthFirstSearch.java	(revision 12c96e8c211a4f2c8e6a401e1b214610cf0a4ae8)
++++ b/src/algorithms/search/DepthFirstSearch.java	(date 1618241769267)
+@@ -1,11 +1,11 @@
+ package algorithms.search;
+ 
+ public class DepthFirstSearch implements ISearchingAlgorithm{
+-    private int visitedNodesCount;
++    private int nodesEvaluated;
+ 
+     @Override
+     public int getNumberOfNodesEvaluated() {
+-        return visitedNodesCount;
++        return nodesEvaluated;
+     }
+ 
+     @Override
+Index: src/algorithms/search/SearchableMaze.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package algorithms.search;\r\n\r\nimport algorithms.mazeGenerators.Maze;\r\nimport algorithms.mazeGenerators.Position;\r\n\r\npublic class SearchableMaze implements ISearchable {\r\n    private MazeState startState;\r\n    private MazeState finalState;\r\n    private Maze maze;\r\n    private boolean isSolved;\r\n\r\n    public SearchableMaze(Maze maze) {\r\n        this.startState = new MazeState(maze.getStartPosition(), null);\r\n        this.finalState = new MazeState(maze.getGoalPosition(), null);\r\n        this.maze = maze;\r\n        this.isSolved = false;\r\n    }\r\n\r\n    public void setSolved(boolean solved) {\r\n        isSolved = solved;\r\n    }\r\n\r\n    public boolean isSolved() {\r\n        return isSolved;\r\n    }\r\n\r\n    @Override\r\n    public MazeState getStartState() {\r\n        return this.startState;\r\n    }\r\n\r\n    @Override\r\n    public MazeState getFinalState() {\r\n        return this.finalState;\r\n    }\r\n\r\n\r\n    /**return the optional moves that the State can move to.\r\n     * @param currState AState\r\n     * @return array within 8 MazeState (can be also null) that the currState can move to.\r\n     * the optional state will be organize in the array according to this :\r\n     * MazeState[0]<--Upper cell, MazeState[1]<--Upper right diagonal, MazeState[2]<--Right cell, MazeState[3]<--lower right diagonal cell, MazeState[4]<--Lower cell,\r\n     * MazeState[5]<--Lower left diagonal cell, MazeState[6]<--Left cell, MazeState[7]<--Upper left diagonal cell,\r\n     * adding to the suitable index in the array the MazeState if the currState can move to the cell (the cell exist and his value is 0), else keep it null\r\n     */\r\n    @Override\r\n    public MazeState[] getAllSuccessors(AState currState) {\r\n        MazeState mazeState = (MazeState) currState;\r\n        boolean up = false;\r\n        boolean right = false;\r\n        boolean down = false;\r\n        boolean left = false;\r\n        //creating the MazeState array that will be return:\r\n        MazeState[] successorsMazeState = new MazeState[8];\r\n        //saving the current Position:\r\n        Position currPosition = ((MazeState)currState).getState();\r\n        //States:\r\n        //the up cell :\r\n        int UpperCellRow = (currPosition.getRowIndex() - 1);\r\n        int UpperCellCol = currPosition.getColumnIndex();\r\n        //the Upper right diagonal cell:\r\n        int UpperRightDiagonalRow = (currPosition.getRowIndex()-1);\r\n        int UpperRightDiagonalCol = (currPosition.getColumnIndex()+1);\r\n        //the Right cell:\r\n        int RightCellRow = currPosition.getRowIndex();\r\n        int RightCellCol = (currPosition.getColumnIndex()+1);\r\n        //the lower right diagonal cell:\r\n        int LowerRightDiagonalRow = (currPosition.getRowIndex()+1);\r\n        int LowerRightDiagonalCol = (currPosition.getColumnIndex()+1);\r\n        //insert the Lower cell:\r\n        int LowerCellRow = (currPosition.getRowIndex() + 1);\r\n        int LowerCellCol = currPosition.getColumnIndex();\r\n        //insert the Lower left diagonal cell:\r\n        int LowerLeftDiagonalCellRow = (currPosition.getRowIndex() + 1);\r\n        int LowerLeftDiagonalCellCol = (currPosition.getColumnIndex() - 1);\r\n        //insert the Left cell:\r\n        int LeftCellRow = currPosition.getRowIndex();\r\n        int LeftCellCol = (currPosition.getColumnIndex() - 1);\r\n        //insert the Upper left diagonal cell:\r\n        int UpperLeftDiagonalCellRow = (currPosition.getRowIndex() - 1);\r\n        int UpperLeftDiagonalCellCol = (currPosition.getColumnIndex() - 1);\r\n\r\n\r\n        //update the booleans and update the array with the relevant MazeStates:\r\n        //right:\r\n        if(currPosition.getColumnIndex() < (this.maze.getColumns()-1)) {right = true;}\r\n        //down:\r\n        if(currPosition.getRowIndex() < (this.maze.getRows()-1)) {down = true;}\r\n        //left:\r\n        if(currPosition.getColumnIndex() > 0) {left = true;}\r\n        //up:\r\n        if(currPosition.getRowIndex()>0)\r\n        {\r\n            up = true;\r\n            //insert the up cell to the array in index 0:\r\n            if (this.maze.getCellValue(UpperCellRow,UpperCellCol) != 1)\r\n            {\r\n                successorsMazeState[0] = new MazeState(new Position(UpperCellRow, UpperCellCol), (MazeState) currState);\r\n            }\r\n            //insert the Upper right diagonal cell:\r\n            if(right) {\r\n                if ((this.maze.getCellValue(UpperRightDiagonalRow, UpperRightDiagonalCol) != 1) && ((this.maze.getCellValue(UpperCellRow, UpperCellCol) != 1) || (this.maze.getCellValue(RightCellRow, RightCellCol) != 1))) {\r\n                    successorsMazeState[1] = new MazeState(new Position(UpperRightDiagonalRow, UpperRightDiagonalCol), (MazeState) currState);\r\n                }\r\n            }\r\n        }\r\n        //insert the Right cell:\r\n        if(right)\r\n        {\r\n            if (this.maze.getCellValue(RightCellRow,RightCellCol) != 1)\r\n            {\r\n                successorsMazeState[2] = new MazeState(new Position(RightCellRow, RightCellCol), (MazeState) currState);\r\n            }\r\n            //insert the lower right diagonal cell:\r\n            if(down)\r\n            {\r\n                if ((this.maze.getCellValue(LowerRightDiagonalRow,LowerRightDiagonalCol) != 1) && ((this.maze.getCellValue(RightCellRow,RightCellCol) != 1) || (this.maze.getCellValue(LowerCellRow,LowerCellCol) != 1)))\r\n                {\r\n                    successorsMazeState[3] = new MazeState(new Position(LowerRightDiagonalRow, LowerRightDiagonalCol), (MazeState) currState);\r\n                }\r\n            }\r\n        }\r\n        //insert the Lower cell:\r\n        if(down) {\r\n            if (this.maze.getCellValue(LowerCellRow, LowerCellCol) != 1)\r\n            {\r\n                successorsMazeState[4] = new MazeState(new Position(LowerCellRow, LowerCellCol), (MazeState) currState);\r\n            }\r\n            //insert the Lower left diagonal cell:\r\n            if (left) {\r\n                if ((this.maze.getCellValue(LowerLeftDiagonalCellRow, LowerLeftDiagonalCellCol) != 1) && ((this.maze.getCellValue(LeftCellRow, LeftCellCol) != 1) || (this.maze.getCellValue(LowerCellRow, LowerCellCol) != 1)))\r\n                {\r\n                    successorsMazeState[5] = new MazeState(new Position(LowerLeftDiagonalCellRow, LowerLeftDiagonalCellCol), (MazeState) currState);\r\n                }\r\n            }\r\n        }\r\n        //insert the Left cell:\r\n        if(left)\r\n        {\r\n            if(this.maze.getCellValue(LeftCellRow,LeftCellCol) != 1)\r\n            {\r\n                successorsMazeState[6] = new MazeState(new Position(LeftCellRow, LeftCellCol), (MazeState) currState);\r\n            }\r\n            //insert the Upper left diagonal cell:\r\n            if(up)\r\n            {\r\n                if ((this.maze.getCellValue(UpperLeftDiagonalCellRow,UpperLeftDiagonalCellCol) != 1) && ((this.maze.getCellValue(LeftCellRow,LeftCellCol) != 1) || (this.maze.getCellValue(UpperCellRow,UpperCellCol) != 1)))\r\n                {\r\n                    successorsMazeState[7] = new MazeState(new Position(UpperLeftDiagonalCellRow, UpperLeftDiagonalCellCol), (MazeState) currState);\r\n                }\r\n            }\r\n        }\r\n\r\n        return successorsMazeState;\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/search/SearchableMaze.java b/src/algorithms/search/SearchableMaze.java
+--- a/src/algorithms/search/SearchableMaze.java	(revision 12c96e8c211a4f2c8e6a401e1b214610cf0a4ae8)
++++ b/src/algorithms/search/SearchableMaze.java	(date 1617898115078)
+@@ -36,7 +36,7 @@
+ 
+ 
+     /**return the optional moves that the State can move to.
+-     * @param currState AState
++     * @param currState the current AState
+      * @return array within 8 MazeState (can be also null) that the currState can move to.
+      * the optional state will be organize in the array according to this :
+      * MazeState[0]<--Upper cell, MazeState[1]<--Upper right diagonal, MazeState[2]<--Right cell, MazeState[3]<--lower right diagonal cell, MazeState[4]<--Lower cell,
+Index: src/algorithms/search/ASearchingAlgorithm.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package algorithms.search;\r\n\r\npublic abstract class ASearchingAlgorithm implements ISearchingAlgorithm{\r\n    private int visitedNodesCount;\r\n\r\n    @Override\r\n    public int getNumberOfNodesEvaluated() {\r\n        return visitedNodesCount;\r\n    }\r\n\r\n    @Override\r\n    public String getName() {\r\n        return null;\r\n    }\r\n\r\n    @Override\r\n    public Solution solve(ISearchable searchable) {\r\n        return null;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/search/ASearchingAlgorithm.java b/src/algorithms/search/ASearchingAlgorithm.java
+--- a/src/algorithms/search/ASearchingAlgorithm.java	(revision 12c96e8c211a4f2c8e6a401e1b214610cf0a4ae8)
++++ b/src/algorithms/search/ASearchingAlgorithm.java	(date 1617994633678)
+@@ -1,11 +1,11 @@
+ package algorithms.search;
+ 
+ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
+-    private int visitedNodesCount;
++    private int nodesEvaluated;
+ 
+     @Override
+     public int getNumberOfNodesEvaluated() {
+-        return visitedNodesCount;
++        return nodesEvaluated;
+     }
+ 
+     @Override

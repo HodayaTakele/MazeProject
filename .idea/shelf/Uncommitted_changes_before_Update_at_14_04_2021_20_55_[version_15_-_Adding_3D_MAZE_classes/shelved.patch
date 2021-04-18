@@ -1,0 +1,194 @@
+Index: src/algorithms/maze3D/Position3D.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/maze3D/Position3D.java b/src/algorithms/maze3D/Position3D.java
+new file mode 100644
+--- /dev/null	(date 1618338492332)
++++ b/src/algorithms/maze3D/Position3D.java	(date 1618338492332)
+@@ -0,0 +1,8 @@
++package algorithms.maze3D;
++
++public class Position3D {
++    public int getDepthIndex(){return 1;}
++    public int getRowIndex(){return 1;}
++    public int getColumnIndex(){return 1;}
++
++}
+Index: src/algorithms/maze3D/SearchableMaze3D.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/maze3D/SearchableMaze3D.java b/src/algorithms/maze3D/SearchableMaze3D.java
+new file mode 100644
+--- /dev/null	(date 1618339369303)
++++ b/src/algorithms/maze3D/SearchableMaze3D.java	(date 1618339369303)
+@@ -0,0 +1,20 @@
++package algorithms.maze3D;
++import algorithms.search.AState;
++import algorithms.search.ISearchable;
++public class SearchableMaze3D implements ISearchable {
++
++    @Override
++    public AState getStartState() {
++        return null;
++    }
++
++    @Override
++    public AState getFinalState() {
++        return null;
++    }
++
++    @Override
++    public AState[] getAllSuccessors(AState currState) {
++        return new AState[0];
++    }
++}
+Index: src/algorithms/maze3D/MyMaze3DGenerator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/maze3D/MyMaze3DGenerator.java b/src/algorithms/maze3D/MyMaze3DGenerator.java
+new file mode 100644
+--- /dev/null	(date 1618403603420)
++++ b/src/algorithms/maze3D/MyMaze3DGenerator.java	(date 1618403603420)
+@@ -0,0 +1,54 @@
++package algorithms.maze3D;
++
++import algorithms.mazeGenerators.Maze;
++import algorithms.mazeGenerators.Position;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public class MyMaze3DGenerator extends AMaze3DGenerator{
++    @Override
++    public Maze3D generate(int depth, int row, int column) {
++        Maze maze = new Maze3D(depth, rows, columns, 1);
++        List<Position> wallList = new ArrayList<>();
++/*        maze.breakWall(0, 0);
++        wallList.add(new Position(1, 0));
++        wallList.add(new Position(0, 1));*/
++        openCell(new Position(0,0), maze, wallList);
++        while (!wallList.isEmpty()) {
++            Position wall = getRandomWall(wallList);
++            List<Position> wallNeighbors = getWallNeighbors(wall, maze);
++            if (wallNeighbors.size() == 2){
++                Position Neighbor1 = wallNeighbors.get(0);
++                Position Neighbor2 = wallNeighbors.get(1);
++                int Neighbor1CellValue = maze.getCellValue(Neighbor1.getRowIndex(), Neighbor1.getColumnIndex());
++                int Neighbor2CellValue = maze.getCellValue(Neighbor2.getRowIndex(), Neighbor2.getColumnIndex());
++
++                //open the pass if exactly one cell is open
++                if (Neighbor1CellValue + Neighbor2CellValue == 1) {
++                    maze.breakWall(wall.getRowIndex(), wall.getColumnIndex());
++
++                    if (Neighbor1CellValue == 0 && Neighbor2CellValue == 1) {
++                        openCell(Neighbor2, maze, wallList);
++
++                    } else if (Neighbor1CellValue == 1 && Neighbor2CellValue == 0) {
++                        openCell(Neighbor1, maze, wallList);
++                    }
++                }
++            }
++            else if (wallNeighbors.size() == 1){
++                maze.breakWall(wall.getRowIndex(), wall.getColumnIndex());
++            }
++        }
++        chooseFinalPosition(maze);
++        return maze;
++    }
++
++
++    @Override
++    public long measureAlgorithmTimeMillis(int depth, int row, int column) {
++        return 0;
++    }
++
++    //generate
++}
+Index: src/algorithms/maze3D/Maze3D.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/maze3D/Maze3D.java b/src/algorithms/maze3D/Maze3D.java
+new file mode 100644
+--- /dev/null	(date 1618338366154)
++++ b/src/algorithms/maze3D/Maze3D.java	(date 1618338366154)
+@@ -0,0 +1,7 @@
++package algorithms.maze3D;
++
++public class Maze3D {
++    public int[][][] getMap(){return null;}
++    public Position3D getStartPosition(){return null;}
++    public Position3D getGoalPosition(){return null;}
++}
+Index: src/algorithms/maze3D/Maze3DState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/maze3D/Maze3DState.java b/src/algorithms/maze3D/Maze3DState.java
+new file mode 100644
+--- /dev/null	(date 1618339512046)
++++ b/src/algorithms/maze3D/Maze3DState.java	(date 1618339512046)
+@@ -0,0 +1,14 @@
++package algorithms.maze3D;
++
++import algorithms.search.AState;
++
++public class Maze3DState extends AState {
++    public Maze3DState(AState cameFrom) {
++        super(cameFrom);
++    }
++
++    @Override
++    public String toString() {
++        return null;
++    }
++}
+Index: src/algorithms/maze3D/IMazeGenerator3D.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/maze3D/IMazeGenerator3D.java b/src/algorithms/maze3D/IMazeGenerator3D.java
+new file mode 100644
+--- /dev/null	(date 1618341004168)
++++ b/src/algorithms/maze3D/IMazeGenerator3D.java	(date 1618341004168)
+@@ -0,0 +1,8 @@
++package algorithms.maze3D;
++
++public interface IMazeGenerator3D {
++
++    Maze3D generate(int depth, int rows, int columns);
++
++    long measureAlgorithmTimeMillis(int depth, int rows, int columns);
++}
+Index: src/algorithms/maze3D/AMaze3DGenerator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/algorithms/maze3D/AMaze3DGenerator.java b/src/algorithms/maze3D/AMaze3DGenerator.java
+new file mode 100644
+--- /dev/null	(date 1618347322490)
++++ b/src/algorithms/maze3D/AMaze3DGenerator.java	(date 1618347322490)
+@@ -0,0 +1,13 @@
++package algorithms.maze3D;
++
++public abstract class AMaze3DGenerator implements IMazeGenerator3D{
++    public AMaze3DGenerator() { }
++
++    @Override
++    public long measureAlgorithmTimeMillis(int depth, int rows, int columns){
++        long generationStartTime = System.currentTimeMillis();
++        generate(depth, rows, columns);
++        long generationEndTime = System.currentTimeMillis();
++        return (generationEndTime - generationStartTime);
++    }
++}
