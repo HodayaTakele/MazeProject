@@ -25,4 +25,5 @@ public class RunSearchOnMaze {
             System.out.println(String.format("%s. %s",i,solutionPath.get(i)));
         }
     }
+
 }
