@@ -1,4 +1,4 @@
 package Client;
 
-public interface IClientStrategy {
+public interface IClientStrategy  {
 }

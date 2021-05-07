@@ -77,7 +77,7 @@ public class Maze {
         byte[] mazeByte;
         boolean infoByte;
         int infoEnd;
-        if (rows < 255 && columns < 255 && goal.getRowIndex() < 255 && goal.getColumnIndex() < 255 && start.getRowIndex() < 255 && start.getColumnIndex() < 255) {
+        if (rows <= 255 && columns <= 255 && goal.getRowIndex() <= 255 && goal.getColumnIndex() <= 255 && start.getRowIndex() <= 255 && start.getColumnIndex() <= 255) {
             infoEnd = 7;
             mazeByte = new byte[infoEnd + (rows+1)*(columns+1)];
             mazeByte[0] = 0;

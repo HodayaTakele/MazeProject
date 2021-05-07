@@ -6,8 +6,12 @@ import java.io.OutputStream;
 public class MyCompressorOutputStream extends OutputStream {
 
     private OutputStream out;
-    int byteCounter;
-    boolean byteIsVisit;
+    private int lastByte;
+    private int byteCounter;
+
+    public MyCompressorOutputStream(OutputStream out) {
+        this.out = out;
+    }
 
     @Override
     public void write(int b) throws IOException {
@@ -22,7 +26,5 @@ public class MyCompressorOutputStream extends OutputStream {
         }
     }
 
-    public MyCompressorOutputStream(OutputStream out) {
-        this.out = out;
-    }
+
 }
