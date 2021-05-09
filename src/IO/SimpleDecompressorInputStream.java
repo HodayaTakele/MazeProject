@@ -30,9 +30,9 @@ public class SimpleDecompressorInputStream extends InputStream {
         if (firstIndex == 0) { startIndex = 7; }
         else if (firstIndex==1) { startIndex = 25; }
         else { throw new IOException(); }
-        int data = this.in.read(b, 0, startIndex - 1);
+        this.in.read(b, 0, startIndex);
 
-        data = this.in.read();
+        int data = this.in.read();
         while (data != -1) {
             for (int i = 0; i < data; i++) {
                 b[startIndex++] = byteToWrite;
@@ -43,7 +43,7 @@ public class SimpleDecompressorInputStream extends InputStream {
                 byteToWrite = (byte) ((byteToWrite) ^ (1));
             }
             //avoiding option of -1
-            else if (data == 1) {
+            else if (data == 0) {
                 data = this.in.read();
             }
         }

@@ -7,13 +7,16 @@ public class SimpleCompressorOutputStream extends OutputStream{
 
     private OutputStream out;
     private byte lastByte;
-    private int byteCounter;
     private Object IOException;
 
     public SimpleCompressorOutputStream(OutputStream out) {
         this.out = out;
         this.lastByte = (byte)0;
-        this.byteCounter = 0;
+    }
+
+    @Override
+    public void write(int b) throws IOException {
+
     }
 
     /**
@@ -28,24 +31,29 @@ public class SimpleCompressorOutputStream extends OutputStream{
         /*super.write(b);*/
         int firstIndex = b[0];
         int startIndex;
+        int byteCounter = 0;
+        int bLen = b.length;
 
         if(firstIndex==0){ startIndex = 7; }
         else if (firstIndex==1){ startIndex = 25; }
         else { throw new IOException(); }
 
-        lastByte = b[startIndex-1];
+        lastByte = b[startIndex];
         for (int i = 0; i < startIndex; i++) {
             this.out.write(b[i]);
         }
-        for (int i = startIndex; i < b.length; i++)
+        for (int i = startIndex; i <= bLen; i++)
         {
-            if (Byte.compare(b[i], lastByte) == 0){
+            if ( i == bLen){
+                toWrite(byteCounter);
+            }
+            else if (Byte.compare(b[i], lastByte) == 0){
                 byteCounter++;
                 lastByte = b[i];
             }
             else {
                 lastByte = b[i];
-                write(byteCounter);
+                toWrite(byteCounter);
                 byteCounter = 1;
             }
         }
@@ -56,9 +64,9 @@ public class SimpleCompressorOutputStream extends OutputStream{
      * if byteCounter > 255 : The algorithm divides the number so that each digit is separated by zero and of course not greater than 255 .
      * else : The algorithm writes the number as it is .
      * write the byteCounter to the OutputStream .
+     * @throws IOException Failed reading .
      */
-    @Override
-    public void write(int byteCounter) {
+    private void toWrite(int byteCounter) throws IOException {
         try {
             byte[] toWriteAfterPartition;
 
@@ -76,11 +84,12 @@ public class SimpleCompressorOutputStream extends OutputStream{
                 byteCounter1 = (byte)255;
                 byteCounter2 = (byte)(byteCounter - 255);
                 l = new byte[]{byteCounter1, (byte) 0, byteCounter2};*/
+                this.out.write(toWriteAfterPartition);
             }
             else {
-                toWriteAfterPartition = new byte[]{(byte) byteCounter};
+//                toWriteAfterPartition = new byte[]{(byte) byteCounter};
+                this.out.write((byte) byteCounter);
             }
-            this.out.write(toWriteAfterPartition);
         }
         catch (IOException e){
             e.printStackTrace();

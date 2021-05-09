@@ -13,35 +13,49 @@ public class MyMazeGenerator extends AMazeGenerator {
         // Create maze filled with walls
         Maze maze = new Maze(rows, columns, 1);
         maze.setStart(0,0);
-        // List that contain all the passages that have not yet been explored
-        List<Position> wallList = new ArrayList<>();
-        // Open the start position
-        openCell(maze.getStartPosition(), maze, wallList);
-        // Move through and open pass and cell until all cells are covered and the wall list is empty
-        while (!wallList.isEmpty()) {
-            // Get a random wall from the available wall list
-            Position wall = getRandomWall(wallList);
-            // Get wall Neighbors(available cells)
-            List<Position> wallNeighbors = getWallNeighbors(wall, maze);
-            // Check if there is a cell have 2 Neighbors and try to open the close cell if it's possible
-            if (wallNeighbors.size() == 2){
-                Position Neighbor1 = wallNeighbors.get(0);
-                Position Neighbor2 = wallNeighbors.get(1);
-                // Open the pass if exactly one cell is open
-                if (maze.getCellValue(Neighbor1.getRowIndex(), Neighbor1.getColumnIndex()) + maze.getCellValue(Neighbor2.getRowIndex(), Neighbor2.getColumnIndex()) == 1) {
-                    // Open the pass
+        if (columns == 2 && rows == 2){
+            maze.breakWall(0,0);
+            maze.breakWall(1,0);
+            maze.breakWall(1,1);
+            maze.setGoal(1,1);
+        }
+        else {
+            // List that contain all the passages that have not yet been explored
+            List<Position> wallList = new ArrayList<>();
+            // Open the start position
+            openCell(maze.getStartPosition(), maze, wallList);
+            // Move through and open pass and cell until all cells are covered and the wall list is empty
+            while (!wallList.isEmpty()) {
+                // Get a random wall from the available wall list
+                Position wall = getRandomWall(wallList);
+                // Get wall Neighbors(available cells)
+                List<Position> wallNeighbors = getWallNeighbors(wall, maze);
+                // Check if there is a cell have 2 Neighbors and try to open the close cell if it's possible
+                if (wallNeighbors.size() == 2) {
+                    Position Neighbor1 = wallNeighbors.get(0);
+                    Position Neighbor2 = wallNeighbors.get(1);
+                    // Open the pass if exactly one cell is open
+                    if (maze.getCellValue(Neighbor1.getRowIndex(), Neighbor1.getColumnIndex()) + maze.getCellValue(Neighbor2.getRowIndex(), Neighbor2.getColumnIndex()) == 1) {
+                        // Open the pass
+                        maze.breakWall(wall.getRowIndex(), wall.getColumnIndex());
+                        // Open Neighbor2 cell
+                        if (maze.getCellValue(Neighbor1.getRowIndex(), Neighbor1.getColumnIndex()) == 0 && maze.getCellValue(Neighbor2.getRowIndex(), Neighbor2.getColumnIndex()) == 1) {
+                            openCell(Neighbor2, maze, wallList);
+                        }
+                        // Open Neighbor1 cell
+                        else if (maze.getCellValue(Neighbor1.getRowIndex(), Neighbor1.getColumnIndex()) == 1 && maze.getCellValue(Neighbor2.getRowIndex(), Neighbor2.getColumnIndex()) == 0) {
+                            openCell(Neighbor1, maze, wallList);
+                        }
+                    }
+                }
+                // The pass is in the maze limits, no available cell to move in so we just break the wall.
+                else if (wallNeighbors.size() == 1) {
                     maze.breakWall(wall.getRowIndex(), wall.getColumnIndex());
-                    // Open Neighbor2 cell
-                    if (maze.getCellValue(Neighbor1.getRowIndex(), Neighbor1.getColumnIndex()) == 0 && maze.getCellValue(Neighbor2.getRowIndex(), Neighbor2.getColumnIndex()) == 1) { openCell(Neighbor2, maze, wallList); }
-                    // Open Neighbor1 cell
-                    else if (maze.getCellValue(Neighbor1.getRowIndex(), Neighbor1.getColumnIndex()) == 1 && maze.getCellValue(Neighbor2.getRowIndex(), Neighbor2.getColumnIndex()) == 0) { openCell(Neighbor1, maze, wallList); }
                 }
             }
-            // The pass is in the maze limits, no available cell to move in so we just break the wall.
-            else if (wallNeighbors.size() == 1){ maze.breakWall(wall.getRowIndex(), wall.getColumnIndex()); }
+            // Set a random goal position in the limits of the maze.
+            chooseFinalPosition(maze);
         }
-        // Set a random goal position in the limits of the maze.
-        chooseFinalPosition(maze);
         return maze;
     }
 
@@ -100,9 +114,9 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
 
     private void chooseFinalPosition(Maze maze) {
-        if (maze.getColumns() > 2 && maze.getRows() > 2) {
-            int columnsRange = (maze.getColumns() - 1) / 2;
-            int rowsRange = (maze.getRows() - 1) / 2;
+        if (maze.getColumns() >= 2 && maze.getRows() >= 2) {
+            int columnsRange = ((maze.getColumns() - 1) / 2) + 1;
+            int rowsRange = ((maze.getRows() - 1) / 2) + 1;
             Random rand = new Random();
             int row, column;
             boolean goalFound = false;
