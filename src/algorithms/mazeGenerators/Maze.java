@@ -1,7 +1,6 @@
 package algorithms.mazeGenerators;
 
 import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -9,6 +8,7 @@ import java.util.Objects;
 public class Maze {
     private Position start;
     private Position goal;
+    @SuppressWarnings("FieldMayBeFinal")
     private int[][] data;
     private int rows;
     private int columns;
@@ -42,10 +42,10 @@ public class Maze {
         int infoEnd=0;
         if (maze[0] == 0){
             infoEnd = 7;
-            this.rows = (int)maze[1];
-            this.columns = (int)maze[2];
-            this.start = new Position((int)maze[3], (int)maze[4]);
-            this.goal = new Position((int)maze[5], (int)maze[6]);
+            this.rows = Byte.toUnsignedInt(maze[1]);
+            this.columns = Byte.toUnsignedInt(maze[2]);
+            this.start = new Position(Byte.toUnsignedInt(maze[3]), Byte.toUnsignedInt(maze[4]));
+            this.goal = new Position(Byte.toUnsignedInt(maze[5]), Byte.toUnsignedInt(maze[6]));
         }
         else if (maze[0] == 1){
             infoEnd = 25;
@@ -55,10 +55,10 @@ public class Maze {
             this.goal = new Position(ByteBuffer.wrap(maze, 17,4).getInt(), ByteBuffer.wrap(maze, 21,4).getInt());
         }
 
-        this.data = new int[rows+1][columns+1];
+        this.data = new int[rows + 1][columns + 1];
         for (int i = 0; i <= rows; i++) {
             for (int j = 0; j <= columns; j++) {
-                this.data[i][j] = (int)maze[infoEnd+(i*(rows+1))+j];
+                this.data[i][j] = Byte.toUnsignedInt(maze[infoEnd+(i*getColumns())+j]);
             }
         }
     }
@@ -75,11 +75,10 @@ public class Maze {
      */
     public byte[] toByteArray(){
         byte[] mazeByte;
-        boolean infoByte;
         int infoEnd;
         if (rows <= 255 && columns <= 255 && goal.getRowIndex() <= 255 && goal.getColumnIndex() <= 255 && start.getRowIndex() <= 255 && start.getColumnIndex() <= 255) {
             infoEnd = 7;
-            mazeByte = new byte[infoEnd + (rows+1)*(columns+1)];
+            mazeByte = new byte[infoEnd + (getRows() * getColumns())];
             mazeByte[0] = 0;
             mazeByte[1] = (byte)rows;
             mazeByte[2] = (byte)columns;
@@ -90,7 +89,7 @@ public class Maze {
         }
         else{
             infoEnd = 25;
-            mazeByte = new byte[infoEnd + (rows+1)*(columns+1)];
+            mazeByte = new byte[infoEnd + (getRows() * getColumns())];
             mazeByte[0] = 1;
             ArrayList<Integer> info = new ArrayList<>(Arrays.asList(rows, columns, start.getRowIndex(), start.getColumnIndex(), goal.getRowIndex(), goal.getColumnIndex()));
             ArrayList<byte[]> mazeInfo = new ArrayList<>();
@@ -107,13 +106,11 @@ public class Maze {
 
         for (int i = 0; i <= rows; i++) {
             for (int j = 0; j <= columns; j++) {
-                mazeByte[infoEnd+(i*(rows+1))+j] = (byte) data[i][j];
+                mazeByte[infoEnd + (i * getColumns()) + j] = (byte) data[i][j];
             }
         }
         return mazeByte;
     }
-
-    public int[][] getData(){ return data;}
 
     public void setStart(int row, int column) throws MazeException {
         if ( row < 0 || row > this.rows ) throw new MazeException("row", this.rows);

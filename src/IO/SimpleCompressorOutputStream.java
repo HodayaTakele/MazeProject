@@ -5,9 +5,9 @@ import java.io.OutputStream;
 
 public class SimpleCompressorOutputStream extends OutputStream{
 
+    @SuppressWarnings("FieldMayBeFinal")
     private OutputStream out;
     private byte lastByte;
-    private Object IOException;
 
     public SimpleCompressorOutputStream(OutputStream out) {
         this.out = out;
@@ -15,7 +15,7 @@ public class SimpleCompressorOutputStream extends OutputStream{
     }
 
     @Override
-    public void write(int b) throws IOException {
+    public void write(int b){
 
     }
 
@@ -47,7 +47,7 @@ public class SimpleCompressorOutputStream extends OutputStream{
             if ( i == bLen){
                 toWrite(byteCounter);
             }
-            else if (Byte.compare(b[i], lastByte) == 0){
+            else if (b[i] == lastByte){
                 byteCounter++;
                 lastByte = b[i];
             }
@@ -80,10 +80,6 @@ public class SimpleCompressorOutputStream extends OutputStream{
                     toWriteAfterPartition[i] = (byte) 255;
                 }
                 toWriteAfterPartition[lastIndex] = (byte) (byteCounter - (255 * mod));
-/*                byte byteCounter1, byteCounter2;
-                byteCounter1 = (byte)255;
-                byteCounter2 = (byte)(byteCounter - 255);
-                l = new byte[]{byteCounter1, (byte) 0, byteCounter2};*/
                 this.out.write(toWriteAfterPartition);
             }
             else {
@@ -91,7 +87,10 @@ public class SimpleCompressorOutputStream extends OutputStream{
                 this.out.write((byte) byteCounter);
             }
         }
-        catch (IOException e){
+        catch (IOException io){
+            throw io;
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
 
