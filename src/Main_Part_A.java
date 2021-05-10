@@ -4,7 +4,7 @@ import algorithms.search.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Main {
+public class Main_Part_A {
 
     public static String m_resultsFileName = "results.txt";
 

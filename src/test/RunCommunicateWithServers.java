@@ -1,7 +1,7 @@
 package test;
 
 public class RunCommunicateWithServers {
-/*    public static void main(String[] args) {
+  /*  public static void main(String[] args) {
         //Initializing servers
         Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
         Server solveSearchProblemServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
@@ -34,7 +34,7 @@ public class RunCommunicateWithServers {
                         toServer.flush();
                         byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed withMyCompressor) from server
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
-                        byte[] decompressedMaze = new byte[1000 *//*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*//*]; //allocating byte[] for the decompressed maze -
+                        byte[] decompressedMaze = new byte[1000 *//* CHANGE SIZE ACCORDING TO YOU MAZE SIZE *//*]; //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
                         Maze maze = new Maze(decompressedMaze);
                         maze.print();
