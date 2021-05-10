@@ -1,5 +1,8 @@
 package Server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,15 +16,14 @@ public class Server {
     private IServerStrategy strategy;
     private volatile boolean stop;
     private ExecutorService threadPool; // Thread pool
-    private int clientCount;
-
+    private final Logger log = LogManager.getLogger();
 
     public Server(int port, int listeningIntervalMS, IServerStrategy strategy) {
         this.port = port;
         this.listeningIntervalMS = listeningIntervalMS;
         this.strategy = strategy;
         this.threadPool = Executors.newCachedThreadPool();
-        this.clientCount = 0;
+
 
     }
 
@@ -29,6 +31,7 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningIntervalMS);
+            log.info("Starting server at - Port = " + port);
             new Thread(()-> handleMultipleClients(serverSocket)).start();
 
         } catch (IOException e) {
@@ -41,22 +44,20 @@ public class Server {
                 try {
                     Socket clientSocket;
                     clientSocket = serverSocket.accept();
-                    clientCount++;
+                    log.info("Client accepted: " + clientSocket.toString());
                     // Insert the new task into the thread pool:
                     threadPool.submit(() -> handleClient(clientSocket) );
-
                 } catch (SocketTimeoutException e) {
-                    //System.out.println("SocketTimeoutException");
+                    log.info("Socket Timeout");
                 } catch (IOException io) {
                     io.printStackTrace();
                 }
             }
             serverSocket.close();
+            threadPool.shutdownNow();
         }catch (IOException e){
             e.printStackTrace();
         }
-        //threadPool.shutdown(); // do not allow any new tasks into the thread pool (not doing anything to the current tasks and running threads)
-        threadPool.shutdownNow(); // do not allow any new tasks into the thread pool, and also interrupts all running threads (do not terminate the threads, so if they do not handle interrupts properly, they could never stop...)
     }
     private void handleClient(Socket clientSocket) {
         try {
@@ -68,6 +69,7 @@ public class Server {
     }
 
     public void stop() {
+        log.info("Server shutting down");
         stop = true;
     }
 }

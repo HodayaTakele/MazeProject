@@ -5,12 +5,16 @@ import IO.MyDecompressorInputStream;
 import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public class ServerStrategyGenerateMaze implements IServerStrategy{
+    private final Logger log = LogManager.getLogger();
+
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
         try {
@@ -35,9 +39,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
             toClient.flush();
             byteArrayOutput.close();
             toClient.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
 

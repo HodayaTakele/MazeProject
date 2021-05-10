@@ -173,6 +173,30 @@ public class Maze implements Serializable {
     }
 
     @Override
+    public String toString() {
+        StringBuilder mazeString = new StringBuilder();
+        for (int i = 0; i <= this.rows; i++) {
+            mazeString.append("{ ");
+            for (int j = 0; j <= this.columns; j++) {
+                if(this.start != null && i == this.start.getRowIndex() && j == this.start.getColumnIndex())
+                    mazeString.append("S ");
+                else if(this.goal!= null && i == this.goal.getRowIndex() && j == this.goal.getColumnIndex())
+                    mazeString.append("E ");
+                else
+                    mazeString.append(this.data[i][j] + " ");
+            }
+            mazeString.append("}\n");
+        }
+        return "Maze:" +
+                "\nrows = " + rows +
+                "\ncolumns = " + columns +
+                "\nstart = " + start +
+                "\ngoal = " + goal +
+                "\ndata: \n" + mazeString;
+
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Maze)) return false;
