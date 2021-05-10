@@ -13,7 +13,7 @@ public class Server {
     private IServerStrategy strategy;
     private volatile boolean stop;
     private ExecutorService threadPool; // Thread pool
-    private int clientcount;
+    private int clientCount;
 
 
     public Server(int port, int listeningIntervalMS, IServerStrategy strategy) {
@@ -21,7 +21,7 @@ public class Server {
         this.listeningIntervalMS = listeningIntervalMS;
         this.strategy = strategy;
         this.threadPool = Executors.newCachedThreadPool();
-        this.clientcount = 0;
+        this.clientCount = 0;
 
     }
 
@@ -29,34 +29,41 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningIntervalMS);
+            new Thread(()-> handleMultipleClients(serverSocket)).start();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void handleMultipleClients(ServerSocket serverSocket){
+        try {
             while (!stop) {
                 try {
-                    Socket clientSocket = serverSocket.accept();
-                    System.out.println("Server connect with client");
-                    clientcount++;
+                    Socket clientSocket;
+                    clientSocket = serverSocket.accept();
+                    clientCount++;
                     // Insert the new task into the thread pool:
-                    threadPool.submit(() -> {
-                        handleClient(clientSocket);
-                        System.out.println("Server handle Client");
-                    });
+                    threadPool.submit(() -> handleClient(clientSocket) );
 
-                } catch (SocketTimeoutException e){
-                    System.out.println("SocketTimeoutException");
+                } catch (SocketTimeoutException e) {
+                    //System.out.println("SocketTimeoutException");
+                } catch (IOException io) {
+                    io.printStackTrace();
                 }
             }
             serverSocket.close();
-            //threadPool.shutdown(); // do not allow any new tasks into the thread pool (not doing anything to the current tasks and running threads)
-            threadPool.shutdownNow(); // do not allow any new tasks into the thread pool, and also interrupts all running threads (do not terminate the threads, so if they do not handle interrupts properly, they could never stop...)
-        } catch (IOException e) {
-            //e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
         }
+        //threadPool.shutdown(); // do not allow any new tasks into the thread pool (not doing anything to the current tasks and running threads)
+        threadPool.shutdownNow(); // do not allow any new tasks into the thread pool, and also interrupts all running threads (do not terminate the threads, so if they do not handle interrupts properly, they could never stop...)
     }
     private void handleClient(Socket clientSocket) {
         try {
             strategy.applyStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
             clientSocket.close();
         } catch (IOException e){
+            e.printStackTrace();
         }
     }
 

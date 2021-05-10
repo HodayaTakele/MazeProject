@@ -16,24 +16,30 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
         try {
             //to check
             ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
-            System.out.println("Server applied serverStrategy");
+            ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
             int[] mazeSize = (int[])(fromClient.readObject());
             int rows = mazeSize[0];
             int columns = mazeSize[1];
             AMazeGenerator mazeGenerator = new MyMazeGenerator();
             Maze maze = mazeGenerator.generate(rows, columns);
-            System.out.println("Server generate Maze");
             byte[] mazeByte = maze.toByteArray();
-            ObjectOutputStream toClient = new ObjectOutputStream(new MyCompressorOutputStream(new BufferedOutputStream(outToClient)));
-            toClient.write(mazeByte);
-            System.out.println("Server send compressed Maze");
+            // create a temporary byteArrayOutputStream that holds the bytes of the compressed maze
+            ByteArrayOutputStream byteArrayOutput = new ByteArrayOutputStream();
+            MyCompressorOutputStream compressedOutput = new MyCompressorOutputStream(byteArrayOutput);
+            compressedOutput.write(mazeByte);
+            compressedOutput.flush();
+            compressedOutput.close();
+            // save the compressed maze and sent it to the client
+            byte[] compressedMaze = byteArrayOutput.toByteArray();
+            toClient.writeObject(compressedMaze);
             toClient.flush();
+            byteArrayOutput.close();
             toClient.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 }
