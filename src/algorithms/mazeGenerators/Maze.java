@@ -1,11 +1,12 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Maze {
+public class Maze implements Serializable {
     private Position start;
     private Position goal;
     @SuppressWarnings("FieldMayBeFinal")
