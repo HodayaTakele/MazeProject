@@ -3,16 +3,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import algorithms.mazeGenerators.Maze;
-import algorithms.search.BestFirstSearch;
-import algorithms.search.SearchableMaze;
-import algorithms.search.Solution;
-
+import algorithms.search.*;
 import java.io.*;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy {
     private final Logger log = LogManager.getLogger();
     private ObjectOutputStream toClient;
     private ObjectInputStream fromClient;
+    private Configurations configurations = Configurations.getInstance();
 
 
     @Override
@@ -21,16 +19,16 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
             toClient = new ObjectOutputStream(outToClient);
             fromClient = new ObjectInputStream(inFromClient);
 
-            Maze mazeToSol = getMazeFromClient(inFromClient);
+            Maze mazeToSol = getMazeFromClient();
             Solution mazeSolution= getSolFromPersistence(mazeToSol);
             if(mazeSolution==null)
             {
                 SearchableMaze searchableMaze = new SearchableMaze(mazeToSol);
-                BestFirstSearch Search = new BestFirstSearch();
+                ISearchingAlgorithm Search = configurations.getMazeSearchingAlgorithm();
                 mazeSolution = Search.solve(searchableMaze);
                 saveSolution(mazeSolution,mazeToSol);
             }
-            sendToClient(outToClient,mazeSolution);
+            sendToClient(mazeSolution);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +52,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
         }
     }
 
-    private void sendToClient(OutputStream outToClient,Solution mazeSolution)throws  Exception {
+    private void sendToClient(Solution mazeSolution)throws  Exception {
         toClient.writeObject(mazeSolution);
         toClient.flush();
         toClient.close();
@@ -82,7 +80,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
         }
     }
 
-    private Maze getMazeFromClient(InputStream inFromClient) throws  Exception{
+    private Maze getMazeFromClient( ) throws  Exception{
         return (Maze)fromClient.readObject();
     }
 

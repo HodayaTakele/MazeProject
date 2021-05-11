@@ -18,12 +18,14 @@ public class Server {
     private ExecutorService threadPool; // Thread pool
     private final Logger log = LogManager.getLogger();
 
+
+
     public Server(int port, int listeningIntervalMS, IServerStrategy strategy) {
         this.port = port;
         this.listeningIntervalMS = listeningIntervalMS;
         this.strategy = strategy;
-        this.threadPool = Executors.newCachedThreadPool();
-
+        Configurations configurations = Configurations.getInstance();
+        this.threadPool = Executors.newFixedThreadPool(configurations.getThreadPoolSize());
 
     }
 
